@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Labor App Splash Screen</title>
+    
+    <!-- গুগল ফন্ট ইমপোর্ট (সুন্দর টেক্সট স্টাইলের জন্য) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
+    <style>
+        /* বেসিক রিসেট এবং বডি স্টাইল */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); /* সুন্দর নীল গ্র্যাডিয়েন্ট ব্যাকগ্রাউন্ড */
+            font-family: 'Poppins', sans-serif;
+            overflow: hidden;
+        }
+
+        /* লোগো কন্টেইনার ডিজাইন */
+        .logo-container {
+            width: 120px;
+            height: 120px;
+            background-color: #ffffff;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            opacity: 0;
+            animation: popIn 0.8s ease-out forwards; /* লোগো আসার অ্যানিমেশন */
+        }
+
+        /* লোগো ইমেজ বা আইকন */
+        .logo-img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        /* টেক্সট ডিজাইন */
+        .app-title {
+            font-size: 2rem;
+            color: #ffffff;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        /* অক্ষরগুলোর জন্য স্প্যান স্টাইল (জাভাস্ক্রিপ্ট দিয়ে তৈরি হবে) */
+        .app-title span {
+            opacity: 0;
+            display: inline-block;
+            transform: translateY(20px);
+            filter: blur(5px);
+            animation: textReveal 0.5s forwards;
+        }
+
+        /* অ্যানিমেশন কি-ফ্রেম (Keyframes) */
+        
+        /* লোগো পপ-আপ অ্যানিমেশন */
+        @keyframes popIn {
+            0% { transform: scale(0); opacity: 0; }
+            80% { transform: scale(1.1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* টেক্সট রিভিল অ্যানিমেশন */
+        @keyframes textReveal {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+                filter: blur(0);
+            }
+        }
+
+        /* লোডিং বার (অপশনাল - দেখতে ভালো লাগে) */
+        .loader {
+            width: 150px;
+            height: 4px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 2px;
+            margin-top: 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loader::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 0;
+            background: #ff9800; /* অরেঞ্জ কালার */
+            animation: loading 5s linear forwards;
+        }
+
+        @keyframes loading {
+            to { width: 100%; }
+        }
+
+        /* মোবাইল রেস্পন্সিভনেস */
+        @media (max-width: 600px) {
+            .logo-container { width: 100px; height: 100px; }
+            .logo-img { width: 60px; height: 60px; }
+            .app-title { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- লোগো সেকশন -->
+    <div class="logo-container">
+        <!-- এখানে আপনি আপনার লোগো ইমেজের লিংক দিতে পারেন। এখন আমি একটি ডিফল্ট আইকন ব্যবহার করছি -->
+        <!-- উদাহরণ: <img src="your-logo.png" class="logo-img" alt="Logo"> -->
+        <svg class="logo-img" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 6H4V4H20V6ZM21 10H3V8H21V10ZM19 19H5V12H19V19ZM17 14H7V17H17V14Z" fill="#2a5298"/>
+            <path d="M12 2L15 4H9L12 2Z" fill="#ff9800"/>
+        </svg>
+    </div>
+
+    <!-- টেক্সট সেকশন -->
+    <h1 class="app-title">Work Management</h1>
+
+    <!-- লোডিং বার -->
+    <div class="loader"></div>
+
+    <script>
+        // জাভাস্ক্রিপ্ট লজিক
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const titleElement = document.querySelector('.app-title');
+            const textToAnimate = titleElement.textContent;
+            
+            // টেক্সট খালি করে ফেলা যাতে আমরা স্প্যান ট্যাগ ঢোকাতে পারি
+            titleElement.textContent = '';
+
+            // লুপ চালিয়ে প্রতিটি অক্ষরকে আলাদা <span> ট্যাগে ভাগ করা
+            for (let i = 0; i < textToAnimate.length; i++) {
+                const span = document.createElement('span');
+                
+                // স্পেস বা ফাঁকা জায়গা ঠিক রাখা
+                if(textToAnimate[i] === ' ') {
+                    span.innerHTML = '&nbsp;';
+                } else {
+                    span.textContent = textToAnimate[i];
+                }
+
+                // প্রতিটি অক্ষরের জন্য ডিলে (Delay) সেট করা
+                // লোগো আসার ০.৮ সেকেন্ড পর টেক্সট শুরু হবে
+                // প্রতিটি অক্ষর ০.১ সেকেন্ড পর পর আসবে
+                span.style.animationDelay = `${0.8 + (i * 0.1)}s`;
+                
+                titleElement.appendChild(span);
+            }
+
+            // ৫ সেকেন্ড পর home1.html পেজে রিডাইরেক্ট করা
+            setTimeout(() => {
+                window.location.href = 'home1.html';
+            }, 5000);
+        });
+    </script>
+
+</body>
+</html>
